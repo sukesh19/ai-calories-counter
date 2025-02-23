@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
-import tensorflow as t
+import tensorflow as tf
 import numpy as np
 from PIL import Image
 import requests
