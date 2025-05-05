@@ -1,6 +1,6 @@
 # [App Name] - AI-Powered Calorie Tracker 🍎🤖
 
-**Effortlessly track your meals and nutrition with the power of Artificial Intelligence.**
+**Effortlessly track your meals and nutrition with the power of Artificial Intelligence.*
 
 ## Overview
 
