@@ -63,7 +63,7 @@ Have questions, issues, or suggestions?
 
 ## Disclaimer ⚠️
 
-[App Name] provides nutritional estimates based on AI analysis and database information. While we strive for accuracy, these figures are estimates. This app is intended for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider or registered dietitian before making any decisions about your health or diet.
+[App Name] provides nutritional estimates based on AI analysis and database information. While we strive for accuracy, these figures are estimates. This app is intended for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider or registered dietitian before making any decisions about your health or diet....
 
 ---
 
