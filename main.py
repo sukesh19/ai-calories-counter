@@ -17,7 +17,7 @@ def preprocess_image(image: Image.Image):
     img_array = np.array(image) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
-
+    
 # API endpoint to analyze food image
 @app.post("/analyze-image/")
 async def analyze_image(file: UploadFile = File(...)):
