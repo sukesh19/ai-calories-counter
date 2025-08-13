@@ -1,7 +1,7 @@
 # [vaidoc] - AI-Powered Calorie Tracker🍎🤖
 
 
-####trying to bring accuracy###
+###trying to bring accuracy###
 **Effortlessly track your meals and nutrition with the power of Artificial Intelligence.*
 
 ## Overview
