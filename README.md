@@ -2,7 +2,7 @@
 
 
 ###trying to bring accuracy###
-**Effortlessly track your meals and nutrition with the power of Artificial Intelligence.*
+**Effortlessly track your meals and nutrition with the power of Artificial Intelligence.
 
 ## Overview
 
