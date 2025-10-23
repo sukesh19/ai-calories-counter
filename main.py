@@ -1,57 +1,54 @@
-from fastapi import FastAPI, UploadFile, File
-import tensorflow as tf
-import numpy as np
-from PIL import Image
-import requests
-import io
-import uvicorn
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 
-app = FastAPI()
+class CalorieCounterApp(App):
+    def build(self):
+        self.bmi = 22.0  # Example BMI, in a real app ask user input
+        self.daily_requirement = self.calculate_daily_calorie_requirement(self.bmi)
+        self.total_calories = 0
 
-# Load pre-trained AI model (example: MobileNetV2 for food recognition)
-model = tf.keras.applications.MobileNetV2(weights="imagenet")
+        self.layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-# Function to preprocess image
-def preprocess_image(image: Image.Image):
-    image = image.resize((224, 224))
-    img_array = np.array(image) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
-    return img_array
-    
-# API endpoint to analyze food image
-@app.post("/analyze-image/")
-async def analyze_image(file: UploadFile = File(...)):
-    image = Image.open(io.BytesIO(await file.read()))
-    processed_img = preprocess_image(image)
-    predictions = model.predict(processed_img)
-    decoded_preds = tf.keras.applications.mobilenet_v2.decode_predictions(predictions, top=3)[0]
-    return {"predictions": [{"food": pred[1], "confidence": float(pred[2])} for pred in decoded_preds]}
+        self.bmi_label = Label(text=f"BMI: {self.bmi:.1f}")
+        self.layout.add_widget(self.bmi_label)
 
-# API endpoint for barcode scanning
-@app.get("/scan-barcode/{barcode}")
-def scan_barcode(barcode: str):
-    response = requests.get(f"https://world.openfoodfacts.org/api/v0/product/{barcode}.json")
-    data = response.json()
-    if "product" in data:
-        product = data["product"]
-        return {
-            "name": product.get("product_name", "Unknown"),
-            "calories": product.get("nutriments", {}).get("energy-kcal", "N/A"),
-            "nutrients": product.get("nutriments", {})
-        }
-    return {"error": "Product not found"}
+        self.requirement_label = Label(text=f"Estimated Daily Calorie Requirement: {self.daily_requirement} kcal")
+        self.layout.add_widget(self.requirement_label)
 
-# API endpoint for manual text-based food logging
-@app.post("/log-food/")
-def log_food(food_name: str):
-    # Example database/API integration (mocked response)
-    food_data = {
-        "apple": {"calories": 52, "protein": 0.3, "carbs": 14, "fats": 0.2},
-        "banana": {"calories": 89, "protein": 1.1, "carbs": 23, "fats": 0.3}
-    }
-    if food_name.lower() in food_data:
-        return {"food": food_name, "nutrition": food_data[food_name.lower()]}
-    return {"error": "Food not found in database"}
+        self.calorie_input = TextInput(hint_text="Enter calories consumed", multiline=False, input_filter='int')
+        self.layout.add_widget(self.calorie_input)
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+        self.add_button = Button(text="Add Calories")
+        self.add_button.bind(on_press=self.add_calories)
+        self.layout.add_widget(self.add_button)
+
+        self.total_label = Label(text=f"Total Calories Consumed: {self.total_calories} kcal")
+        self.layout.add_widget(self.total_label)
+
+        self.disclaimer_label = Label(text="Disclaimer: This is an AI-generated approximate value for reference only.", font_size='12sp')
+        self.layout.add_widget(self.disclaimer_label)
+
+        return self.layout
+
+    def calculate_daily_calorie_requirement(self, bmi):
+        # Simplified calculation: normal BMI daily calories ~ 2000
+        # Adjust requirement linearly upward/downward by BMI difference from 22
+        base_calories = 2000
+        bmi_normal = 22
+        adjustment = (bmi - bmi_normal) * 50  # 50 kcal per BMI point difference
+        return max(1200, int(base_calories + adjustment))  # minimum 1200 kcal
+
+    def add_calories(self, instance):
+        try:
+            calories = int(self.calorie_input.text)
+            self.total_calories += calories
+            self.total_label.text = f"Total Calories Consumed: {self.total_calories} kcal"
+            self.calorie_input.text = ""
+        except ValueError:
+            self.calorie_input.text = ""
+
+if __name__ == '__main__':
+    CalorieCounterApp().run()
