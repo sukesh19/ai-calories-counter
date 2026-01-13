@@ -1,5 +1,5 @@
 vaidoc - AI-Powered Calorie Tracker 🍎🤖
-Effortlessly track your meals and nutrition with smart AI technology.
+Effortlessly track your meals and nutrition with smart AI technology..
 
 Overview
 vaidoc is designed to simplify calorie tracking with the help of advanced artificial intelligence. Say goodbye to manual entries—our app lets you snap photos or describe meals to quickly log nutrition, set goals, and get powerful feedback. Perfect for weight loss, muscle gain, or healthier eating habits.
